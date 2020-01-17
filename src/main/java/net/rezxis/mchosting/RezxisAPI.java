@@ -12,9 +12,11 @@ public class RezxisAPI extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         try {
             String uri = session.getUri().trim();
-            if(uri.startsWith("/onlineservers")){
+            if (uri.startsWith("/onlineservers")){
                 int os = Tables.getSTable().getOnlineServers().size();
                 return newFixedLengthResponse(String.valueOf(os));
+            } else if (uri.startsWith("/playingplayers")) {
+            	return newFixedLengthResponse(String.valueOf(Tables.getPTable().getOnlinePlayers()));
             }
         } catch (Exception e) {
             e.printStackTrace();
