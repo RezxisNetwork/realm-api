@@ -1,12 +1,10 @@
 package net.rezxis.mchosting;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import fi.iki.elonen.NanoHTTPD;
 import net.rezxis.mchosting.database.Tables;
