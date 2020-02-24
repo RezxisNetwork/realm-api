@@ -22,17 +22,18 @@ public class RezxisAPI extends NanoHTTPD {
     public Response serve(IHTTPSession session) {
         try {
             String uri = session.getUri().trim();
+            System.out.println(session.getRemoteIpAddress()+" : "+uri);
             if (uri.startsWith("/onlineservers")){
                 int os = Tables.getSTable().getOnlineServers().size();
-                return newFixedLengthResponse(String.valueOf(os));
+                return newFixedLengthResponse(Response.Status.OK,"text/plain",String.valueOf(os));
             } else if (uri.startsWith("/playingplayers")) {
-            	return newFixedLengthResponse(String.valueOf(Tables.getPTable().getOnlinePlayers()));
+            	return newFixedLengthResponse(Response.Status.OK,"text/plain",String.valueOf(Tables.getPTable().getOnlinePlayers()));
             } else if (uri.startsWith("/system")) {
             	SystemRequestReturn sys = new SystemRequestReturn();
             	Runtime rt = Runtime.getRuntime();
             	sys.mem = rt.maxMemory();
             	sys.memUsed = rt.maxMemory()-rt.freeMemory();
-            	return newFixedLengthResponse(new Gson().toJson(sys));
+            	return newFixedLengthResponse(Response.Status.OK,"application/json",new Gson().toJson(sys));
             } else if (uri.startsWith("/vpn")) {
             	VPNRequestReturn ret = new VPNRequestReturn(-1, "Something went to worng");
             	UUID target = null;
@@ -68,7 +69,7 @@ public class RezxisAPI extends NanoHTTPD {
             			ret = new VPNRequestReturn(0, "success");
             		}
             	}
-            	return newFixedLengthResponse(new Gson().toJson(ret));
+            	return newFixedLengthResponse(Response.Status.OK,"application/json", new Gson().toJson(ret));
             } else if (uri.startsWith("/discord")) {
             	long id = -1;
             	for (Entry<String,List<String>> entry : session.getParameters().entrySet()) {
@@ -94,7 +95,7 @@ public class RezxisAPI extends NanoHTTPD {
                 		lReturn.message = player.getUUID().toString();
             		}
             	}
-            	return newFixedLengthResponse(new Gson().toJson(lReturn));
+            	return newFixedLengthResponse(Response.Status.OK,"application/json", new Gson().toJson(lReturn));
             }
         } catch (Exception e) {
             e.printStackTrace();
