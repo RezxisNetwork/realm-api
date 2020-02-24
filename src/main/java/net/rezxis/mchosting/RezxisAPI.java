@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import fi.iki.elonen.NanoHTTPD;
 import net.rezxis.mchosting.database.Tables;
 import net.rezxis.mchosting.database.object.player.DBPlayer;
+import net.rezxis.mchosting.returns.DiscordLinkReturn;
 import net.rezxis.mchosting.returns.SystemRequestReturn;
 import net.rezxis.mchosting.returns.VPNRequestReturn;
 
@@ -68,6 +69,32 @@ public class RezxisAPI extends NanoHTTPD {
             		}
             	}
             	return newFixedLengthResponse(new Gson().toJson(ret));
+            } else if (uri.startsWith("/discord")) {
+            	long id = -1;
+            	for (Entry<String,List<String>> entry : session.getParameters().entrySet()) {
+            		if (entry.getKey().equalsIgnoreCase("id")) {
+            			try {
+            				id = Long.valueOf(entry.getValue().get(0));
+            			} catch (Exception ex) {
+            				ex.printStackTrace();
+            			}
+            		}
+            	}
+            	DiscordLinkReturn lReturn = new DiscordLinkReturn();
+            	if (id == -1) {
+            		lReturn.code = -1;
+            		lReturn.message = "invaild request args";
+            	} else {
+            		DBPlayer player = Tables.getPTable().getByDiscordId(id);
+            		if (player == null) {
+            			lReturn.code = -2;
+                		lReturn.message = "no user with the id";
+            		} else {
+            			lReturn.code = 0;
+                		lReturn.message = player.getUUID().toString();
+            		}
+            	}
+            	return newFixedLengthResponse(new Gson().toJson(lReturn));
             }
         } catch (Exception e) {
             e.printStackTrace();
