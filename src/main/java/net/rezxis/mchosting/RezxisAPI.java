@@ -1,5 +1,6 @@
 package net.rezxis.mchosting;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -9,6 +10,7 @@ import com.google.gson.Gson;
 import fi.iki.elonen.NanoHTTPD;
 import net.rezxis.mchosting.database.Tables;
 import net.rezxis.mchosting.database.object.player.DBPlayer;
+import net.rezxis.mchosting.database.object.player.DBVote;
 import net.rezxis.mchosting.database.object.server.DBServer;
 import net.rezxis.mchosting.returns.*;
 
@@ -159,6 +161,24 @@ public class RezxisAPI extends NanoHTTPD {
 					}
 				}
 				return newFixedLengthResponse(Response.Status.OK, "application/json", new Gson().toJson(Return));
+			} else if (uri.startsWith("/ranking/vote")) {
+				HashMap<Integer,VoteRankingReturn> map = new HashMap<>();
+				int max = 0;
+				for (Entry<String,List<String>> entry : session.getParameters().entrySet()) {
+					if (entry.getKey().equalsIgnoreCase("max")) {
+						try {
+							max = Integer.valueOf(entry.getValue().get(0));
+						} catch (Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				}
+				int i = 1;
+				for (DBVote vote : Tables.getVTable().getVoteWithLimit(max)) {
+					map.put(i, new VoteRankingReturn(vote.getUuid(), vote.getTotal(), vote.getStreak()));
+					i++;
+				}
+				return newFixedLengthResponse(Response.Status.OK, "application/json", new Gson().toJson(map));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
