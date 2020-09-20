@@ -4,8 +4,9 @@ import java.util.UUID;
 
 public class VoteRankingReturn {
 
-	public VoteRankingReturn(UUID uuid, int total, int streak) {
+	public VoteRankingReturn(UUID uuid, String name, int total, int streak) {
 		this.uuid = uuid;
+		this.name = name;
 		this.total = total;
 		this.streak = streak;
 	}
@@ -13,4 +14,5 @@ public class VoteRankingReturn {
 	public UUID uuid;
 	public int total;
 	public int streak;
+	public String name;
 }

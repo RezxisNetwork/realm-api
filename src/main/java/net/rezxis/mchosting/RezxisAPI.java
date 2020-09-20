@@ -175,7 +175,7 @@ public class RezxisAPI extends NanoHTTPD {
 				}
 				int i = 1;
 				for (DBVote vote : Tables.getVTable().getVoteWithLimit(max)) {
-					map.put(i, new VoteRankingReturn(vote.getUuid(), vote.getTotal(), vote.getStreak()));
+					map.put(i, new VoteRankingReturn(vote.getUuid(), Tables.getUTable().get(vote.getUuid()).getName(), vote.getTotal(), vote.getStreak()));
 					i++;
 				}
 				return newFixedLengthResponse(Response.Status.OK, "application/json", new Gson().toJson(map));
