@@ -1,7 +1,11 @@
 package net.rezxis.mchosting;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
@@ -185,10 +189,14 @@ public class RezxisAPI extends NanoHTTPD {
 			} else if (uri.startsWith("/statistics")) {
 				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 				cal.add(Calendar.HOUR, 1);
+				LinkedHashMap<Date,Integer> pma = StatisticsLogging.searchI("OnlinePlayers", cal.getTime());
+				LinkedHashMap<Date,Integer> sma = StatisticsLogging.searchI("OnlineServers", cal.getTime());
 				return newFixedLengthResponse(Response.Status.OK, "application/json", 
 						new Gson().toJson(
-								new StatisticsReturn(StatisticsLogging.search("OnlinePlayers", cal.getTime())
-								,StatisticsLogging.search("OnlineServers", cal.getTime()))));
+								new StatisticsReturn(new LinkedList<Date>(pma.keySet())
+										,new LinkedList<Integer>(pma.values())
+										,new LinkedList<Date>(sma.keySet())
+										,new LinkedList<Integer>(sma.values()))));
 			} else if (uri.startsWith("/pushFuck")) {
 				for (int i = 0; i < 25; i++) {
 					StatisticsLogging.log("OnlinePlayers", new Random().nextInt(100));
