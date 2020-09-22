@@ -11,6 +11,7 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.IndicesOptions;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.document.DocumentField;
@@ -55,7 +56,8 @@ public class StatisticsLogging implements Runnable {
 		HashMap<Date, String> values = new HashMap<>();
 		try {
 			SearchSourceBuilder builder = new SearchSourceBuilder().fetchSource(new String[] {"*"}, new String[0]);//.query(QueryBuilders.rangeQuery("timestamp").from(from).to(new Date()));
-	        SearchRequest request = new SearchRequest("statistics").source(builder);
+			SearchRequest request = new SearchRequest("statistics").source(builder);
+			request.indicesOptions(IndicesOptions.lenientExpandOpen());
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
 	        for (SearchHit hit : response.getHits()) {
 	        	for (Entry<String, DocumentField> e : hit.getFields().entrySet()) {
