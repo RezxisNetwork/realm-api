@@ -159,7 +159,6 @@ public class StatisticsLogging implements Runnable {
 			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 			cal.add(Calendar.MINUTE, -30);
 			cal.add(Calendar.SECOND, -1);
-			Date end = cal.getTime();
 			int times = 0;
 			int current = 0;
 			Date lastTime = null;
@@ -177,7 +176,7 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (now.after(end)) {
+					if (cal.before(now)) {
 						break;
 					}
 				}
@@ -190,7 +189,6 @@ public class StatisticsLogging implements Runnable {
 			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 			cal.add(Calendar.HOUR, -12);
 			cal.add(Calendar.SECOND, -1);
-			Date end = cal.getTime();
 			int times = 0;
 			int current = 0;
 			Date lastTime = null;
@@ -209,7 +207,7 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (now.after(end))
+					if (cal.before(now))
 						break;
 				}
 				current += entry.getValue();
