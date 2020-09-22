@@ -67,9 +67,8 @@ public class StatisticsLogging implements Runnable {
 	public static HashMap<Date,String> search(String type, Date from) {
 		HashMap<Date, String> values = new HashMap<>();
 		try {
-			SearchSourceBuilder builder = new SearchSourceBuilder().fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
+			SearchSourceBuilder builder = new SearchSourceBuilder().fetchSource(new String[] {"*"}, new String[0]).size(760).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
-			request.setMaxConcurrentShardRequests(370);
 			request.indicesOptions(IndicesOptions.lenientExpandOpen());
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
 	        for (SearchHit hit : response.getHits()) {
@@ -101,9 +100,8 @@ public class StatisticsLogging implements Runnable {
 		HashMap<Date, Integer> values = new HashMap<>();
 		try {
 			SearchSourceBuilder builder = new SearchSourceBuilder()//.query(QueryBuilders.termQuery("type", type))
-					.fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
+					.fetchSource(new String[] {"*"}, new String[0]).size(760).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
-			request.setMaxConcurrentShardRequests(370);
 			request.indicesOptions(IndicesOptions.lenientExpandOpen());
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
 	        for (SearchHit hit : response.getHits()) {
