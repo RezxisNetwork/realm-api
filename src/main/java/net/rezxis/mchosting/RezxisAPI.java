@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.TimeZone;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -182,7 +183,7 @@ public class RezxisAPI extends NanoHTTPD {
 				}
 				return newFixedLengthResponse(Response.Status.OK, "application/json", new Gson().toJson(map));
 			} else if (uri.startsWith("/statistics")) {
-				Calendar cal = Calendar.getInstance();
+				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 				cal.add(Calendar.HOUR, 1);
 				return newFixedLengthResponse(Response.Status.OK, "application/json", 
 						new Gson().toJson(
