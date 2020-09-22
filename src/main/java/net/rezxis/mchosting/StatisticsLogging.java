@@ -1,5 +1,6 @@
 package net.rezxis.mchosting;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -133,9 +134,9 @@ public class StatisticsLogging implements Runnable {
 		@Override
 		public int compare(Date arg0, Date arg1) {
 			if (arg0.before(arg1))
-				return -1;
-			else
 				return 1;
+			else
+				return -1;
 		}};
 	
 	public static ProcessedData processData(HashMap<Date,Integer> data) {
@@ -223,19 +224,27 @@ public class StatisticsLogging implements Runnable {
 		public ProcessedData(LinkedHashMap<Date,Integer> m, LinkedHashMap<Date,Integer> h) {
 			minutes = new LinkedHashMap<>();
 			hours = new LinkedHashMap<>();
+			SimpleDateFormat utc = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			utc.setTimeZone(TimeZone.getTimeZone("UTC"));
+			SimpleDateFormat jst = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			jst.setTimeZone(TimeZone.getTimeZone("JST"));
 			for (Entry<Date,Integer> e : m.entrySet()) {
-				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-				cal.setTime(e.getKey());
-				cal.setTimeZone(TimeZone.getTimeZone("JST"));
-				Date date = cal.getTime();
-				minutes.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
+				Date date;
+				try {
+					date = jst.parse(utc.format(e.getKey()));
+					minutes.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 			}
 			for (Entry<Date,Integer> e : h.entrySet()) {
-				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-				cal.setTime(e.getKey());
-				cal.setTimeZone(TimeZone.getTimeZone("JST"));
-				Date date = cal.getTime();
-				hours.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
+				Date date;
+				try {
+					date = jst.parse(utc.format(e.getKey()));
+					hours.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}
