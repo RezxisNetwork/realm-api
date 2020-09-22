@@ -65,13 +65,11 @@ public class StatisticsLogging implements Runnable {
 	        	String val = null;
 	        	for (Entry<String,Object> e : hit.getSourceAsMap().entrySet()) {
 	        		if (e.getKey().equalsIgnoreCase("@timestamp")) {
-	        			System.out.println(e.getValue().getClass().getName());
-	        			System.out.println(e.getValue());
 	        			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 	                    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 	        			date = sdf.parse((String) e.getValue());
 	        		} else if (e.getKey().equalsIgnoreCase("value")) {
-	        			val = (String) e.getValue();
+	        			val = String.valueOf(e.getValue());
 	        		}
 	        	}
 	        	values.put(date, val);
