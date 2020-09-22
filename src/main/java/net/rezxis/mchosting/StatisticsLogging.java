@@ -2,6 +2,8 @@ package net.rezxis.mchosting;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -224,18 +226,15 @@ public class StatisticsLogging implements Runnable {
 		public ProcessedData(LinkedHashMap<Date,Integer> m, LinkedHashMap<Date,Integer> h) {
 			minutes = new LinkedHashMap<>();
 			hours = new LinkedHashMap<>();
-			SimpleDateFormat utc = new SimpleDateFormat("yyyyMMddHHmmss");
-			utc.setTimeZone(TimeZone.getTimeZone("UTC"));
-			SimpleDateFormat jst = new SimpleDateFormat("yyyyMMddHHmmss");
-			jst.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 			for (Entry<Date,Integer> e : m.entrySet()) {
 				Date date;
 				try {
-					date = jst.parse(utc.format(e.getKey()));
-					System.out.println(utc.format(e.getKey()));
-					System.out.println(jst.parse(utc.format(e.getKey())).toString());
-					System.out.println(e.getKey().toString());
-					minutes.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
+					Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+					cal.setTime(e.getKey());
+					cal.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+					//date = cal.getTime();
+					//minutes.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
+					minutes.put(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE)), e.getValue());
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -243,11 +242,12 @@ public class StatisticsLogging implements Runnable {
 			for (Entry<Date,Integer> e : h.entrySet()) {
 				Date date;
 				try {
-					date = jst.parse(utc.format(e.getKey()));
-					System.out.println(utc.format(e.getKey()));
-					System.out.println(jst.parse(utc.format(e.getKey())).toString());
-					System.out.println(e.getKey().toString());
-					hours.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
+					Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+					cal.setTime(e.getKey());
+					cal.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+					//date = cal.getTime();
+					//hours.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
+					hours.put(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE)), e.getValue());
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
