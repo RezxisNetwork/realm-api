@@ -56,9 +56,10 @@ public class StatisticsLogging implements Runnable {
 		HashMap<Date, String> values = new HashMap<>();
 		try {
 			SearchSourceBuilder builder = new SearchSourceBuilder().fetchSource(new String[] {"*"}, new String[0]);//.query(QueryBuilders.rangeQuery("timestamp").from(from).to(new Date()));
-			SearchRequest request = new SearchRequest("statistics").source(builder).types("_doc");
+			SearchRequest request = new SearchRequest("statistics").source(builder);
 			request.indicesOptions(IndicesOptions.lenientExpandOpen());
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
+	        System.out.println(response.getHits().getHits().length);
 	        for (SearchHit hit : response.getHits()) {
 	        	for (Entry<String,Object> e : hit.getSourceAsMap().entrySet()) {
 	        		System.out.println(e.getKey());
