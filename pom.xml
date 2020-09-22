@@ -45,7 +45,23 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+    	<repository>
+      		<id>alwyn974</id>
+      		<url>https://alwyn974.github.io/maven/</url>
+    	</repository>
+  	</repositories>
     <dependencies>
+ 		<dependency>
+     		<groupId>re.alwyn974.minecraftserverping</groupId>
+      		<artifactId>MinecraftServerPing</artifactId>
+      		<version>1.0.0</version>
+    	</dependency>
+    	<dependency>
+ 			<groupId>org.elasticsearch.client</groupId>
+			<artifactId>elasticsearch-rest-high-level-client</artifactId>
+ 			<version>7.5.2</version>
+		</dependency>
         <dependency>
             <groupId>org.nanohttpd</groupId>
             <artifactId>nanohttpd</artifactId>

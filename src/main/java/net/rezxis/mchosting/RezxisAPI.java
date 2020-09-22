@@ -1,7 +1,9 @@
 package net.rezxis.mchosting;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Map.Entry;
 import java.util.UUID;
 
@@ -179,6 +181,17 @@ public class RezxisAPI extends NanoHTTPD {
 					i++;
 				}
 				return newFixedLengthResponse(Response.Status.OK, "application/json", new Gson().toJson(map));
+			} else if (uri.startsWith("/statistics")) {
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR, 1);
+				return newFixedLengthResponse(Response.Status.OK, "application/json", 
+						new Gson().toJson(
+								new StatisticsReturn(StatisticsLogging.search("OnlinePlayers", cal.getTime())
+								,StatisticsLogging.search("OnlineServers", cal.getTime()))));
+			} else if (uri.startsWith("/pushFuck")) {
+				StatisticsLogging.log("OnlinePlayers", new Random().nextInt(100));
+				StatisticsLogging.log("OnlineServers", new Random().nextInt(100));
+				return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "pushed");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
