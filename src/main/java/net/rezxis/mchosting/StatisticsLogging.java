@@ -94,7 +94,7 @@ public class StatisticsLogging implements Runnable {
 	public static HashMap<Date,Integer> searchI(String type, Date from) {
 		HashMap<Date, Integer> values = new HashMap<>();
 		try {
-			SearchSourceBuilder builder = new SearchSourceBuilder().query(QueryBuilders.termQuery("type", type))
+			SearchSourceBuilder builder = new SearchSourceBuilder()//.query(QueryBuilders.termQuery("type", type))
 					.fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
 			request.indicesOptions(IndicesOptions.lenientExpandOpen());
