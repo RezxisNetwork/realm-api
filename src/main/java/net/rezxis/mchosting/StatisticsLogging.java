@@ -3,6 +3,7 @@ package net.rezxis.mchosting;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.TimeZone;
 
 import org.elasticsearch.action.get.GetRequest;
@@ -12,6 +13,7 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.Strings;
+import org.elasticsearch.common.document.DocumentField;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -56,8 +58,11 @@ public class StatisticsLogging implements Runnable {
 	        SearchRequest request = new SearchRequest("statistics").source(builder);
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
 	        for (SearchHit hit : response.getHits()) {
-	        	values.put(hit.field("@timestamp").getValue(), hit.field("value").getValue());
-	        }
+	        	for (Entry<String, DocumentField> e : hit.getFields().entrySet()) {
+	        		System.out.println(e.getKey());
+	        		System.out.println((Object)e.getValue().getValue());
+	        	}
+ 	        }
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
