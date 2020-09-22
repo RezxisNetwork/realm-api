@@ -74,7 +74,11 @@ public class StatisticsLogging implements Runnable {
 	        for (SearchHit hit : response.getHits()) {
 	        	Date date = null;
 	        	String val = null;
+	        	boolean put = false;
 	        	for (Entry<String,Object> e : hit.getSourceAsMap().entrySet()) {
+	        		if (e.getKey().equalsIgnoreCase("type")) {
+	        			put = true;
+	        		}
 	        		if (e.getKey().equalsIgnoreCase("@timestamp")) {
 	        			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 	                    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -83,7 +87,8 @@ public class StatisticsLogging implements Runnable {
 	        			val = String.valueOf(e.getValue());
 	        		}
 	        	}
-	        	values.put(date, val);
+	        	if (put)
+	        		values.put(date, val);
  	        }
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -163,11 +168,14 @@ public class StatisticsLogging implements Runnable {
 					out.setTime(lastTime);
 					out.set(Calendar.SECOND, 0);
 					minutes.put(out.getTime(), current/times);
+					System.out.println(times+":"+current);
+					System.out.println("M"+times+":"+current);
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (now.after(end))
+					if (now.after(end)) {
 						break;
+					}
 				}
 				current += entry.getValue();
 				++times;
@@ -193,6 +201,7 @@ public class StatisticsLogging implements Runnable {
 					out.set(Calendar.SECOND, 0);
 					out.set(Calendar.MINUTE, 0);
 					hours.put(out.getTime(), current/times);
+					System.out.println("H"+times+":"+current);
 					lastTime = now;
 					current = 0;
 					times = 0;
