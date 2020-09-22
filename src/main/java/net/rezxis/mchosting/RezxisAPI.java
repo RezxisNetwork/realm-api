@@ -183,29 +183,12 @@ public class RezxisAPI extends NanoHTTPD {
 				}
 				return newFixedLengthResponse(Response.Status.OK, "application/json", new Gson().toJson(map));
 			} else if (uri.startsWith("/statistics")) {
-				if (true) {
-					return newFixedLengthResponse(Response.Status.OK, "application/json", "{\"players\": {\"Tue Sep 22 05:53:29 UTC 2020\": 61,\"Tue Sep 22 05:53:30 UTC 2020\": 38, \"Tue Sep 22 05:53:28 UTC 2020\": 72, \"Tue Sep 22 05:53:31 UTC 2020\": 46,\"Tue Sep 22 05:53:32 UTC 2020\": 99,\"Tue Sep 22 05:53:33 UTC 2020\": 84}}");
-				}
 				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 				cal.add(Calendar.HOUR, -1);
 				return newFixedLengthResponse(Response.Status.OK, "application/json", 
 						new Gson().toJson(
-								new StatisticsReturn(StatisticsLogging.searchI("OnlinePlayers", cal.getTime())
-								,StatisticsLogging.searchI("OnlineServers", cal.getTime()))));
-			} else if (uri.startsWith("/pushFuck")) {
-				new Thread(()->{
-					for (int i = 0; i < 25; i++) {
-						StatisticsLogging.log("OnlinePlayers", new Random().nextInt(100));
-						StatisticsLogging.log("OnlineServers", new Random().nextInt(100));
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}).start();
-				return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "pushed");
+								new StatisticsReturn(StatisticsLogging.processData(StatisticsLogging.searchI("OnlinePlayers", cal.getTime()))
+								,StatisticsLogging.processData(StatisticsLogging.searchI("OnlineServers", cal.getTime())))));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

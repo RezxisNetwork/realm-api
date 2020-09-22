@@ -21,6 +21,7 @@ public class Start {
         props = new Props("api.propertis");
         Database.init(props.DB_HOST,props.DB_USER,props.DB_PASS,props.DB_PORT,props.DB_NAME);
 
+        new Thread(new StatisticsLogging()).start();
         RezxisAPI api = new RezxisAPI(8080);
         api.start();
         while(api.isAlive()){

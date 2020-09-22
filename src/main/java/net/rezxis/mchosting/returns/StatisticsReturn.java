@@ -1,14 +1,15 @@
 package net.rezxis.mchosting.returns;
 
 import java.util.Date;
-import java.util.HashMap;
+
+import net.rezxis.mchosting.StatisticsLogging.ProcessedData;
 
 public class StatisticsReturn {
 
-	public HashMap<Date,Integer> players;
-	public HashMap<Date,Integer> servers;
+	public ProcessedData players;
+	public ProcessedData servers;
 	
-	public StatisticsReturn(HashMap<Date,Integer> p, HashMap<Date,Integer> s) {
+	public StatisticsReturn(ProcessedData p, ProcessedData s) {
 		this.players = p;
 		this.servers = s;
 	}

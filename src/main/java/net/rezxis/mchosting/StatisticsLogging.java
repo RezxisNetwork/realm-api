@@ -2,9 +2,12 @@ package net.rezxis.mchosting;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +15,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TimeZone;
 
+import org.apache.lucene.util.QueryBuilder;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -90,7 +94,8 @@ public class StatisticsLogging implements Runnable {
 	public static HashMap<Date,Integer> searchI(String type, Date from) {
 		HashMap<Date, Integer> values = new HashMap<>();
 		try {
-			SearchSourceBuilder builder = new SearchSourceBuilder().fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
+			SearchSourceBuilder builder = new SearchSourceBuilder().query(QueryBuilders.termQuery("type", type))
+					.fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
 			request.indicesOptions(IndicesOptions.lenientExpandOpen());
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
@@ -112,5 +117,97 @@ public class StatisticsLogging implements Runnable {
 			ex.printStackTrace();
 		}
 		return values;
+	}
+	
+	private static Comparator<Date> sorter = new Comparator<Date>() {
+		@Override
+		public int compare(Date arg0, Date arg1) {
+			if (arg0.before(arg1))
+				return 0;
+			else
+				return 1;
+		}};
+	
+	public static ProcessedData processData(HashMap<Date,Integer> data) {
+		//minutes
+		LinkedHashMap<Date,Integer> minutes = new LinkedHashMap<>();
+		//hours
+		LinkedHashMap<Date,Integer> hours = new LinkedHashMap<>();
+		ArrayList<Date> list = new ArrayList<Date>(data.keySet());
+		list.sort(sorter);
+		LinkedHashMap<Date,Integer> sorted = new LinkedHashMap<>();
+		for (Date d : list) {
+			sorted.put(d, data.get(d));
+		}
+		//minutes
+		{
+			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			cal.add(Calendar.MINUTE, 60);
+			cal.add(Calendar.SECOND, 1);
+			Date end = cal.getTime();
+			int times = 0;
+			int current = 0;
+			Date lastTime = null;
+			for (Entry<Date,Integer> entry : sorted.entrySet()) {
+				Date now = entry.getKey();
+				if (lastTime == null) {
+					lastTime = now;
+				}
+				if (lastTime.getMinutes() != now.getMinutes()) {
+					Calendar out = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+					out.setTime(lastTime);
+					out.set(Calendar.SECOND, 0);
+					minutes.put(out.getTime(), current/times);
+					lastTime = now;
+					current = 0;
+					times = 0;
+					if (now.after(end))
+						break;
+				}
+				current += entry.getValue();
+				++times;
+			}
+		}
+		//hours
+		{
+			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+			cal.add(Calendar.HOUR, 24);
+			cal.add(Calendar.SECOND, 1);
+			Date end = cal.getTime();
+			int times = 0;
+			int current = 0;
+			Date lastTime = null;
+			for (Entry<Date,Integer> entry : sorted.entrySet()) {
+				Date now = entry.getKey();
+				if (lastTime == null) {
+					lastTime = now;
+				}
+				if (lastTime.getHours() != now.getHours()) {
+					Calendar out = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+					out.setTime(lastTime);
+					out.set(Calendar.SECOND, 0);
+					out.set(Calendar.MINUTE, 0);
+					hours.put(out.getTime(), current/times);
+					lastTime = now;
+					current = 0;
+					times = 0;
+					if (now.after(end))
+						break;
+				}
+				current += entry.getValue();
+				++times;
+			}
+		}
+		return new ProcessedData(minutes,hours);
+	}
+	
+	public static class ProcessedData {
+		public LinkedHashMap<Date,Integer> minutes;
+		public LinkedHashMap<Date,Integer> hours;
+		
+		public ProcessedData(LinkedHashMap<Date,Integer> m, LinkedHashMap<Date,Integer> h) {
+			this.minutes = m;
+			this.hours = h;
+		}
 	}
 }
