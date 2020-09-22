@@ -184,7 +184,7 @@ public class RezxisAPI extends NanoHTTPD {
 				return newFixedLengthResponse(Response.Status.OK, "application/json", new Gson().toJson(map));
 			} else if (uri.startsWith("/statistics")) {
 				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-				cal.add(Calendar.HOUR, -12);
+				cal.add(Calendar.MINUTE, -30);
 				return newFixedLengthResponse(Response.Status.OK, "application/json", 
 						new Gson().toJson(
 								new StatisticsReturn(StatisticsLogging.processData(StatisticsLogging.searchI("OnlinePlayers", cal.getTime()))
