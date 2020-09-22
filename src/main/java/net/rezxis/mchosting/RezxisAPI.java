@@ -189,8 +189,10 @@ public class RezxisAPI extends NanoHTTPD {
 								new StatisticsReturn(StatisticsLogging.search("OnlinePlayers", cal.getTime())
 								,StatisticsLogging.search("OnlineServers", cal.getTime()))));
 			} else if (uri.startsWith("/pushFuck")) {
-				StatisticsLogging.log("OnlinePlayers", new Random().nextInt(100));
-				StatisticsLogging.log("OnlineServers", new Random().nextInt(100));
+				for (int i = 0; i < 25; i++) {
+					StatisticsLogging.log("OnlinePlayers", new Random().nextInt(100));
+					StatisticsLogging.log("OnlineServers", new Random().nextInt(100));
+				}
 				return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain", "pushed");
 			}
 		} catch (Exception e) {
