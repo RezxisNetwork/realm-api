@@ -84,13 +84,7 @@ public class StatisticsLogging implements Runnable {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		LinkedList<Date> keys = new LinkedList<Date>(values.keySet());
-		Collections.sort(keys, (o1, o2) -> o1.after(o2) ? 1 : 0);
-		LinkedHashMap<Date,String> result = new LinkedHashMap<>();
-		for (Date date : keys) {
-			result.put(date, values.get(date));
-		}
-		return result;
+		return values;
 	}
 	
 	public static LinkedHashMap<Date,Integer> searchI(String type, Date from) {
@@ -117,12 +111,6 @@ public class StatisticsLogging implements Runnable {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		LinkedList<Date> keys = new LinkedList<Date>(values.keySet());
-		Collections.sort(keys, (o1, o2) -> o1.after(o2) ? 1 : 0);
-		LinkedHashMap<Date,Integer> result = new LinkedHashMap<>();
-		for (Date date : keys) {
-			result.put(date, values.get(date));
-		}
-		return result;
+		return values;
 	}
 }
