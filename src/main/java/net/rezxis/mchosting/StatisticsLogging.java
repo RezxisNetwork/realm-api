@@ -148,6 +148,7 @@ public class StatisticsLogging implements Runnable {
 		LinkedHashMap<Date,Integer> sorted = new LinkedHashMap<>();
 		for (Date d : list) {
 			sorted.put(d, data.get(d));
+			System.out.println(d.toString()+" ---- "+data.get(d));
 		}
 		//minutes
 		{
