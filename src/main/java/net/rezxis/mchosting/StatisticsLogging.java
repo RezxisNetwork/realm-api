@@ -133,9 +133,9 @@ public class StatisticsLogging implements Runnable {
 		@Override
 		public int compare(Date arg0, Date arg1) {
 			if (arg0.before(arg1))
-				return 1;
-			else
 				return -1;
+			else
+				return 1;
 		}};
 	
 	public static ProcessedData processData(HashMap<Date,Integer> data) {
@@ -174,7 +174,7 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (now.before(end)) {
+					if (now.after(end)) {
 						break;
 					}
 				}
@@ -206,7 +206,7 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (now.before(end))
+					if (now.after(end))
 						break;
 				}
 				current += entry.getValue();
