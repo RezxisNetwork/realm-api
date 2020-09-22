@@ -76,7 +76,7 @@ public class StatisticsLogging implements Runnable {
 	        	String val = null;
 	        	boolean put = false;
 	        	for (Entry<String,Object> e : hit.getSourceAsMap().entrySet()) {
-	        		if (e.getKey().equalsIgnoreCase("type")) {
+	        		if (e.getKey().equalsIgnoreCase("type") && ((String)e.getValue()).equalsIgnoreCase(type)) {
 	        			put = true;
 	        		}
 	        		if (e.getKey().equalsIgnoreCase("@timestamp")) {
@@ -109,7 +109,7 @@ public class StatisticsLogging implements Runnable {
 	        	int val = -1;
 	        	boolean put = false;
 	        	for (Entry<String,Object> e : hit.getSourceAsMap().entrySet()) {
-	        		if (e.getKey().equalsIgnoreCase("type")) {
+	        		if (e.getKey().equalsIgnoreCase("type") && ((String)e.getValue()).equalsIgnoreCase(type)) {
 	        			put = true;
 	        		}
 	        		if (e.getKey().equalsIgnoreCase("@timestamp")) {
