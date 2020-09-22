@@ -61,15 +61,16 @@ public class StatisticsLogging implements Runnable {
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
 	        System.out.println(response.getHits().getHits().length);
 	        for (SearchHit hit : response.getHits()) {
+	        	Date date = null;
+	        	String val = null;
 	        	for (Entry<String,Object> e : hit.getSourceAsMap().entrySet()) {
-	        		System.out.println(e.getKey());
-	        		System.out.println(e.getValue());
+	        		if (e.getKey().equalsIgnoreCase("@timestamp")) {
+	        			date = (Date) e.getValue();
+	        		} else if (e.getKey().equalsIgnoreCase("value")) {
+	        			val = (String) e.getValue();
+	        		}
 	        	}
-	        	System.out.println("hit");
-	        	/*for (Entry<String, DocumentField> e : hit.getFields().entrySet()) {
-	        		System.out.println(e.getKey());
-	        		System.out.println((Object)e.getValue().getValue());
-	        	}*/
+	        	values.put(date, val);
  	        }
 		} catch (Exception ex) {
 			ex.printStackTrace();
