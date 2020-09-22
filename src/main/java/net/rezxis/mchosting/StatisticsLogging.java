@@ -168,8 +168,7 @@ public class StatisticsLogging implements Runnable {
 					out.setTime(lastTime);
 					out.set(Calendar.SECOND, 0);
 					minutes.put(out.getTime(), current/times);
-					System.out.println(times+":"+current);
-					System.out.println("M"+times+":"+current);
+					System.out.println("M"+times+":"+current+":"+out.getTime().getMinutes());
 					lastTime = now;
 					current = 0;
 					times = 0;
