@@ -184,7 +184,7 @@ public class RezxisAPI extends NanoHTTPD {
 				return newFixedLengthResponse(Response.Status.OK, "application/json", new Gson().toJson(map));
 			} else if (uri.startsWith("/statistics")) {
 				if (true) {
-					return newFixedLengthResponse(Response.Status.OK, "application/json", "{\"Tue Sep 22 05:53:29 UTC 2020\": 61,\"Tue Sep 22 05:53:30 UTC 2020\": 38, \"Tue Sep 22 05:53:28 UTC 2020\": 72, \"Tue Sep 22 05:53:31 UTC 2020\": 46,\"Tue Sep 22 05:53:32 UTC 2020\": 99,\"Tue Sep 22 05:53:33 UTC 2020\": 84}");
+					return newFixedLengthResponse(Response.Status.OK, "application/json", "{\"players\": {\"Tue Sep 22 05:53:29 UTC 2020\": 61,\"Tue Sep 22 05:53:30 UTC 2020\": 38, \"Tue Sep 22 05:53:28 UTC 2020\": 72, \"Tue Sep 22 05:53:31 UTC 2020\": 46,\"Tue Sep 22 05:53:32 UTC 2020\": 99,\"Tue Sep 22 05:53:33 UTC 2020\": 84}}");
 				}
 				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 				cal.add(Calendar.HOUR, -1);
