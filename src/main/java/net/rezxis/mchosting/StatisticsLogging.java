@@ -133,9 +133,9 @@ public class StatisticsLogging implements Runnable {
 		@Override
 		public int compare(Date arg0, Date arg1) {
 			if (arg0.before(arg1))
-				return -1;
-			else
 				return 1;
+			else
+				return -1;
 		}};
 	
 	public static ProcessedData processData(HashMap<Date,Integer> data) {
@@ -143,6 +143,7 @@ public class StatisticsLogging implements Runnable {
 		LinkedHashMap<Date,Integer> minutes = new LinkedHashMap<>();
 		//hours
 		LinkedHashMap<Date,Integer> hours = new LinkedHashMap<>();
+		System.out.println("size : "+data.size());
 		LinkedList<Date> list = new LinkedList<Date>(data.keySet());
 		list.sort(sorter);
 		LinkedHashMap<Date,Integer> sorted = new LinkedHashMap<>();
