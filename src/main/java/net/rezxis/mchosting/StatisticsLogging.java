@@ -224,9 +224,9 @@ public class StatisticsLogging implements Runnable {
 		public ProcessedData(LinkedHashMap<Date,Integer> m, LinkedHashMap<Date,Integer> h) {
 			minutes = new LinkedHashMap<>();
 			hours = new LinkedHashMap<>();
-			SimpleDateFormat utc = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat utc = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 			utc.setTimeZone(TimeZone.getTimeZone("UTC"));
-			SimpleDateFormat jst = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat jst = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 			jst.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 			for (Entry<Date,Integer> e : m.entrySet()) {
 				Date date;
