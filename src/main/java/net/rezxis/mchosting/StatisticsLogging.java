@@ -100,7 +100,7 @@ public class StatisticsLogging implements Runnable {
 		HashMap<Date, Integer> values = new HashMap<>();
 		try {
 			SearchSourceBuilder builder = new SearchSourceBuilder()//.query(QueryBuilders.termQuery("type", type))
-					.fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
+					.fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
 			request.indicesOptions(IndicesOptions.lenientExpandOpen());
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
@@ -133,7 +133,7 @@ public class StatisticsLogging implements Runnable {
 		@Override
 		public int compare(Date arg0, Date arg1) {
 			if (arg0.before(arg1))
-				return 0;
+				return -1;
 			else
 				return 1;
 		}};
