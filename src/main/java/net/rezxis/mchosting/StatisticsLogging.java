@@ -143,7 +143,7 @@ public class StatisticsLogging implements Runnable {
 		LinkedHashMap<Date,Integer> minutes = new LinkedHashMap<>();
 		//hours
 		LinkedHashMap<Date,Integer> hours = new LinkedHashMap<>();
-		ArrayList<Date> list = new ArrayList<Date>(data.keySet());
+		LinkedList<Date> list = new LinkedList<Date>(data.keySet());
 		list.sort(sorter);
 		LinkedHashMap<Date,Integer> sorted = new LinkedHashMap<>();
 		for (Date d : list) {
