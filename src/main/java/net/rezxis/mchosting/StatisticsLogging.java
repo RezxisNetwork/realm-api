@@ -227,11 +227,11 @@ public class StatisticsLogging implements Runnable {
 			SimpleDateFormat utc = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			utc.setTimeZone(TimeZone.getTimeZone("UTC"));
 			SimpleDateFormat jst = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-			jst.setTimeZone(TimeZone.getTimeZone("JST"));
+			jst.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 			for (Entry<Date,Integer> e : m.entrySet()) {
 				Date date;
 				try {
-					date = e.getKey();//jst.parse(utc.format(e.getKey()));
+					date = jst.parse(utc.format(e.getKey()));
 					minutes.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -240,7 +240,7 @@ public class StatisticsLogging implements Runnable {
 			for (Entry<Date,Integer> e : h.entrySet()) {
 				Date date;
 				try {
-					date = e.getKey();//jst.parse(utc.format(e.getKey()));
+					date = jst.parse(utc.format(e.getKey()));
 					hours.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
 				} catch (Exception e1) {
 					e1.printStackTrace();
