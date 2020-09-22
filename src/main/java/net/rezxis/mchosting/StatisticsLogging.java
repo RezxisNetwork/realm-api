@@ -34,25 +34,6 @@ import net.rezxis.mchosting.database.Tables;
 
 public class StatisticsLogging implements Runnable {
 
-	private static Comparator<Date> sorter = new Comparator<Date>() {
-		@Override
-		public int compare(Date arg0, Date arg1) {
-			if (arg0.before(arg1))
-				return 1;
-			else
-				return -1;
-		}
-		};
-	
-		private static Comparator<Date> rsorter = new Comparator<Date>() {
-			@Override
-			public int compare(Date arg0, Date arg1) {
-				if (arg0.before(arg1))
-					return -1;
-				else
-					return 1;
-			}};
-	
 	@Override
 	public void run() {
 		while(true) {
@@ -149,24 +130,30 @@ public class StatisticsLogging implements Runnable {
 			ex.printStackTrace();
 		}
 		return values;
-	}		
-	
-	public static LinkedHashMap<Date,Integer> sort(HashMap<Date,Integer> data, Comparator<Date> sorter) {
-		LinkedList<Date> list = new LinkedList<Date>(data.keySet());
-		list.sort(sorter);
-		LinkedHashMap<Date,Integer> sorted = new LinkedHashMap<>();
-		for (Date d : list) {
-			sorted.put(d, data.get(d));
-		}
-		return sorted;
 	}
-			
+	
+	private static Comparator<Date> sorter = new Comparator<Date>() {
+		@Override
+		public int compare(Date arg0, Date arg1) {
+			if (arg0.before(arg1))
+				return -1;
+			else
+				return 1;
+		}};
+	
 	public static ProcessedData processData(HashMap<Date,Integer> data) {
 		//minutes
 		LinkedHashMap<Date,Integer> minutes = new LinkedHashMap<>();
 		//hours
 		LinkedHashMap<Date,Integer> hours = new LinkedHashMap<>();
-		LinkedHashMap<Date,Integer> sorted = sort(data, sorter);
+		System.out.println("size : "+data.size());
+		LinkedList<Date> list = new LinkedList<Date>(data.keySet());
+		list.sort(sorter);
+		LinkedHashMap<Date,Integer> sorted = new LinkedHashMap<>();
+		for (Date d : list) {
+			sorted.put(d, data.get(d));
+			//System.out.println(d.toString()+" ---- "+data.get(d));
+		}
 		//minutes
 		{
 			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -239,12 +226,12 @@ public class StatisticsLogging implements Runnable {
 		public ProcessedData(LinkedHashMap<Date,Integer> m, LinkedHashMap<Date,Integer> h) {
 			minutes = new LinkedHashMap<>();
 			hours = new LinkedHashMap<>();
-			for (Entry<Date,Integer> e : sort(m,rsorter).entrySet()) {
+			for (Entry<Date,Integer> e : m.entrySet()) {
 				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 				cal.setTime(e.getKey());
 				minutes.put(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE)), e.getValue());
 			}
-			for (Entry<Date,Integer> e : sort(h,rsorter).entrySet()) {
+			for (Entry<Date,Integer> e : h.entrySet()) {
 				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 				cal.setTime(e.getKey());
 				cal.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
