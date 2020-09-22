@@ -154,7 +154,7 @@ public class StatisticsLogging implements Runnable {
 		//minutes
 		{
 			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-			cal.add(Calendar.MINUTE, 60);
+			cal.add(Calendar.MINUTE, 30);
 			cal.add(Calendar.SECOND, 1);
 			Date end = cal.getTime();
 			int times = 0;
@@ -185,7 +185,7 @@ public class StatisticsLogging implements Runnable {
 		//hours
 		{
 			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-			cal.add(Calendar.HOUR, 24);
+			cal.add(Calendar.HOUR, 12);
 			cal.add(Calendar.SECOND, 1);
 			Date end = cal.getTime();
 			int times = 0;
@@ -217,12 +217,18 @@ public class StatisticsLogging implements Runnable {
 	}
 	
 	public static class ProcessedData {
-		public LinkedHashMap<Date,Integer> minutes;
-		public LinkedHashMap<Date,Integer> hours;
+		public LinkedHashMap<String,Integer> minutes;
+		public LinkedHashMap<String,Integer> hours;
 		
 		public ProcessedData(LinkedHashMap<Date,Integer> m, LinkedHashMap<Date,Integer> h) {
-			this.minutes = m;
-			this.hours = h;
+			minutes = new LinkedHashMap<>();
+			hours = new LinkedHashMap<>();
+			for (Entry<Date,Integer> e : m.entrySet()) {
+				minutes.put(String.format("%d時%d分", e.getKey().getHours(), e.getKey().getMinutes()), e.getValue());
+			}
+			for (Entry<Date,Integer> e : h.entrySet()) {
+				hours.put(String.format("%d時%d分", e.getKey().getHours(), e.getKey().getMinutes()), e.getValue());
+			}
 		}
 	}
 }
