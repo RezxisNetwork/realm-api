@@ -173,7 +173,7 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (now.after(end)) {
+					if (now.before(end)) {
 						break;
 					}
 				}
@@ -205,7 +205,7 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (now.after(end))
+					if (now.before(end))
 						break;
 				}
 				current += entry.getValue();
