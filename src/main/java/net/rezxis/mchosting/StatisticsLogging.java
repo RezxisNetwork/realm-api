@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -60,8 +60,8 @@ public class StatisticsLogging implements Runnable {
         }
 	}
 	
-	public static LinkedHashMap<Date,String> search(String type, Date from) {
-		LinkedHashMap<Date, String> values = new LinkedHashMap<>();
+	public static HashMap<Date,String> search(String type, Date from) {
+		HashMap<Date, String> values = new HashMap<>();
 		try {
 			SearchSourceBuilder builder = new SearchSourceBuilder().fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
@@ -87,8 +87,8 @@ public class StatisticsLogging implements Runnable {
 		return values;
 	}
 	
-	public static LinkedHashMap<Date,Integer> searchI(String type, Date from) {
-		LinkedHashMap<Date, Integer> values = new LinkedHashMap<>();
+	public static HashMap<Date,Integer> searchI(String type, Date from) {
+		HashMap<Date, Integer> values = new HashMap<>();
 		try {
 			SearchSourceBuilder builder = new SearchSourceBuilder().fetchSource(new String[] {"*"}, new String[0]).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
