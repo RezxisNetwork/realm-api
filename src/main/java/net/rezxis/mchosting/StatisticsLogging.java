@@ -102,7 +102,11 @@ public class StatisticsLogging implements Runnable {
 	        for (SearchHit hit : response.getHits()) {
 	        	Date date = null;
 	        	int val = -1;
+	        	boolean put = false;
 	        	for (Entry<String,Object> e : hit.getSourceAsMap().entrySet()) {
+	        		if (e.getKey().equalsIgnoreCase("type")) {
+	        			put = true;
+	        		}
 	        		if (e.getKey().equalsIgnoreCase("@timestamp")) {
 	        			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 	                    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -111,7 +115,8 @@ public class StatisticsLogging implements Runnable {
 	        			val = Integer.valueOf(String.valueOf(e.getValue()));
 	        		}
 	        	}
-	        	values.put(date, val);
+	        	if (put)
+	        		values.put(date, val);
  	        }
 		} catch (Exception ex) {
 			ex.printStackTrace();
