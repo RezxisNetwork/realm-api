@@ -60,10 +60,15 @@ public class StatisticsLogging implements Runnable {
 			request.indicesOptions(IndicesOptions.lenientExpandOpen());
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
 	        for (SearchHit hit : response.getHits()) {
-	        	for (Entry<String, DocumentField> e : hit.getFields().entrySet()) {
+	        	for (Entry<String,Object> e : hit.getSourceAsMap().entrySet()) {
+	        		System.out.println(e.getKey());
+	        		System.out.println(e.getValue());
+	        	}
+	        	System.out.println("hit");
+	        	/*for (Entry<String, DocumentField> e : hit.getFields().entrySet()) {
 	        		System.out.println(e.getKey());
 	        		System.out.println((Object)e.getValue().getValue());
-	        	}
+	        	}*/
  	        }
 		} catch (Exception ex) {
 			ex.printStackTrace();
