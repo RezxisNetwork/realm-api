@@ -232,6 +232,9 @@ public class StatisticsLogging implements Runnable {
 				Date date;
 				try {
 					date = jst.parse(utc.format(e.getKey()));
+					System.out.println(utc.format(e.getKey()));
+					System.out.println(jst.parse(utc.format(e.getKey())).toString());
+					System.out.println(e.getKey().toString());
 					minutes.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -241,6 +244,9 @@ public class StatisticsLogging implements Runnable {
 				Date date;
 				try {
 					date = jst.parse(utc.format(e.getKey()));
+					System.out.println(utc.format(e.getKey()));
+					System.out.println(jst.parse(utc.format(e.getKey())).toString());
+					System.out.println(e.getKey().toString());
 					hours.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
 				} catch (Exception e1) {
 					e1.printStackTrace();
