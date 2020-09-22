@@ -231,18 +231,18 @@ public class StatisticsLogging implements Runnable {
 			for (Entry<Date,Integer> e : m.entrySet()) {
 				Date date;
 				try {
-					date = jst.parse(utc.format(e.getKey()));
+					date = e.getKey();//jst.parse(utc.format(e.getKey()));
 					minutes.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
-				} catch (ParseException e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
 			for (Entry<Date,Integer> e : h.entrySet()) {
 				Date date;
 				try {
-					date = jst.parse(utc.format(e.getKey()));
+					date = e.getKey();//jst.parse(utc.format(e.getKey()));
 					hours.put(String.format("%d時%d分", date.getHours(), date.getMinutes()), e.getValue());
-				} catch (ParseException e1) {
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
