@@ -52,7 +52,7 @@ public class StatisticsLogging implements Runnable {
 	public static HashMap<Date,String> search(String type, Date from) {
 		HashMap<Date, String> values = new HashMap<>();
 		try {
-			SearchSourceBuilder builder = new SearchSourceBuilder().query(QueryBuilders.rangeQuery("timestamp").from(from).to(new Date()));
+			SearchSourceBuilder builder = new SearchSourceBuilder();//.query(QueryBuilders.rangeQuery("timestamp").from(from).to(new Date()));
 	        SearchRequest request = new SearchRequest("statistics").source(builder);
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
 	        for (SearchHit hit : response.getHits()) {
