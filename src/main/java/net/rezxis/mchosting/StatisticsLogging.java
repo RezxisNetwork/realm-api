@@ -56,7 +56,7 @@ public class StatisticsLogging implements Runnable {
 	        SearchRequest request = new SearchRequest("statistics").source(builder);
 	        SearchResponse response = Start.rcl.search(request, RequestOptions.DEFAULT);
 	        for (SearchHit hit : response.getHits()) {
-	        	values.put(hit.field("timestamp").getValue(), hit.field("value").getValue());
+	        	values.put(hit.field("@timestamp").getValue(), hit.field("value").getValue());
 	        }
 		} catch (Exception ex) {
 			ex.printStackTrace();
