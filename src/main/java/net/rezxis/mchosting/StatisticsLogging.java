@@ -68,7 +68,7 @@ public class StatisticsLogging implements Runnable {
 	}
 	
 	public static HashMap<Date,String> search(String type, Date from) {
-		HashMap<Date, String> values = new HashMap<>();
+		LinkedHashMap<Date, String> values = new LinkedHashMap<>();
 		try {
 			SearchSourceBuilder builder = new SearchSourceBuilder().fetchSource(new String[] {"*"}, new String[0]).size(10000).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(new Date()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
@@ -102,7 +102,7 @@ public class StatisticsLogging implements Runnable {
 	public static HashMap<Date,Integer> searchI(String type, Date from) {
 		HashMap<Date, Integer> values = new HashMap<>();
 		try {
-			SearchSourceBuilder builder = new SearchSourceBuilder()//.query(QueryBuilders.termQuery("type", type))
+			SearchSourceBuilder builder = new SearchSourceBuilder()
 					.fetchSource(new String[] {"*"}, new String[0]).size(10000).query(QueryBuilders.rangeQuery("@timestamp").from(from).to(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime()));
 			SearchRequest request = new SearchRequest("statistics").source(builder);
 			request.indicesOptions(IndicesOptions.lenientExpandOpen());
@@ -152,7 +152,7 @@ public class StatisticsLogging implements Runnable {
 		LinkedHashMap<Date,Integer> sorted = new LinkedHashMap<>();
 		for (Date d : list) {
 			sorted.put(d, data.get(d));
-			//System.out.println(d.toString()+" ---- "+data.get(d));
+			System.out.println(d.toString()+" ---- "+data.get(d));
 		}
 		//minutes
 		{
