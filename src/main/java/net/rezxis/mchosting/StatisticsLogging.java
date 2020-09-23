@@ -176,8 +176,9 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					System.out.println(cal.getTime().toString());
-					System.out.println(now.toString());
+					if (cal.getTime().after(now)) {
+						break;
+					}
 				}
 				current += entry.getValue();
 				++times;
@@ -206,8 +207,7 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (cal.after(now)) {
-						System.out.println("abort");
+					if (cal.getTime().after(now)) {
 						break;
 					}
 				}
