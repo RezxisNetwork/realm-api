@@ -152,7 +152,7 @@ public class StatisticsLogging implements Runnable {
 		LinkedHashMap<Date,Integer> sorted = new LinkedHashMap<>();
 		for (Date d : list) {
 			sorted.put(d, data.get(d));
-			System.out.println(d.toString()+" ---- "+data.get(d));
+			//System.out.println(d.toString()+" ---- "+data.get(d));
 		}
 		//minutes
 		{
@@ -230,14 +230,14 @@ public class StatisticsLogging implements Runnable {
 				cal.setTime(e.getKey());
 				cal.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 				minutes.put(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE)), e.getValue());
-				System.out.println(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE)+":"+e.getValue()));
+				System.out.println(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE))+":"+e.getValue());
 			}
 			for (Entry<Date,Integer> e : h.entrySet()) {
 				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 				cal.setTime(e.getKey());
 				cal.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 				hours.put(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE)), e.getValue());
-				System.out.println(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE)+":"+e.getValue()));
+				System.out.println(String.format("%d時%d分", cal.get(Calendar.HOUR), cal.get(Calendar.MINUTE))+":"+e.getValue());
 			}
 		}
 	}
