@@ -172,7 +172,7 @@ public class StatisticsLogging implements Runnable {
 					out.setTime(lastTime);
 					out.set(Calendar.SECOND, 0);
 					minutes.put(out.getTime(), current/times);
-					//System.out.println("M"+times+":"+current+":"+out.getTime().getMinutes());
+					System.out.println("M"+times+":"+current+":"+out.getTime().getMinutes());
 					lastTime = now;
 					current = 0;
 					times = 0;
@@ -203,12 +203,13 @@ public class StatisticsLogging implements Runnable {
 					out.set(Calendar.SECOND, 0);
 					out.set(Calendar.MINUTE, 0);
 					hours.put(out.getTime(), current/times);
-					//System.out.println("H"+times+":"+current);
+					System.out.println("H"+times+":"+current);
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (cal.after(now))
+					if (cal.after(now)) {
 						continue;
+					}
 				}
 				current += entry.getValue();
 				++times;
