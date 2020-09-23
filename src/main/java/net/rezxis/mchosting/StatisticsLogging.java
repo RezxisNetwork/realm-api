@@ -176,8 +176,8 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (cal.after(now)) {
-						continue;
+					if (cal.before(now)) {
+						break;
 					}
 				}
 				current += entry.getValue();
@@ -207,8 +207,8 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (cal.after(now)) {
-						continue;
+					if (cal.before(now)) {
+						break;
 					}
 				}
 				current += entry.getValue();
@@ -230,14 +230,14 @@ public class StatisticsLogging implements Runnable {
 				cal.setTime(e.getKey());
 				cal.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 				minutes.put(String.format("%d時%d分", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)), e.getValue());
-				System.out.println(String.format("%d時%d分", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))+":"+e.getValue());
+				//System.out.println(String.format("%d時%d分", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))+":"+e.getValue());
 			}
 			for (Entry<Date,Integer> e : h.entrySet()) {
 				Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 				cal.setTime(e.getKey());
 				cal.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
 				hours.put(String.format("%d時%d分", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE)), e.getValue());
-				System.out.println(String.format("%d時%d分", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))+":"+e.getValue());
+				//System.out.println(String.format("%d時%d分", cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE))+":"+e.getValue());
 			}
 		}
 	}
