@@ -164,13 +164,13 @@ public class StatisticsLogging implements Runnable {
 			Date lastTime = null;
 			for (Entry<Date,Integer> entry : sorted.entrySet()) {
 				Date now = entry.getKey();
+				if (cal.getTime().after(now)) {
+					continue;
+				}
 				if (lastTime == null) {
 					lastTime = now;
 				}
 				if (lastTime.getMinutes() != now.getMinutes()) {
-					if (cal.getTime().after(now)) {
-						continue;
-					}
 					Calendar out = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 					out.setTime(lastTime);
 					out.set(Calendar.SECOND, 0);
@@ -194,13 +194,13 @@ public class StatisticsLogging implements Runnable {
 			Date lastTime = null;
 			for (Entry<Date,Integer> entry : sorted.entrySet()) {
 				Date now = entry.getKey();
+				if (cal.getTime().after(now)) {
+					continue;
+				}
 				if (lastTime == null) {
 					lastTime = now;
 				}
 				if (lastTime.getHours() != now.getHours()) {
-					if (cal.getTime().after(now)) {
-						continue;
-					}
 					Calendar out = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 					out.setTime(lastTime);
 					out.set(Calendar.SECOND, 0);
