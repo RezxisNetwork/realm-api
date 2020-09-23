@@ -177,6 +177,7 @@ public class StatisticsLogging implements Runnable {
 					current = 0;
 					times = 0;
 					if (cal.before(now)) {
+						System.out.println("abort");
 						break;
 					}
 				}
@@ -208,6 +209,7 @@ public class StatisticsLogging implements Runnable {
 					current = 0;
 					times = 0;
 					if (cal.before(now)) {
+						System.out.println("abort");
 						break;
 					}
 				}
