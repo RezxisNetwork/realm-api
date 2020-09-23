@@ -168,6 +168,9 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 				}
 				if (lastTime.getMinutes() != now.getMinutes()) {
+					if (cal.getTime().after(now)) {
+						continue;
+					}
 					Calendar out = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 					out.setTime(lastTime);
 					out.set(Calendar.SECOND, 0);
@@ -176,9 +179,6 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (cal.getTime().after(now)) {
-						break;
-					}
 				}
 				current += entry.getValue();
 				++times;
@@ -198,6 +198,9 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 				}
 				if (lastTime.getHours() != now.getHours()) {
+					if (cal.getTime().after(now)) {
+						continue;
+					}
 					Calendar out = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 					out.setTime(lastTime);
 					out.set(Calendar.SECOND, 0);
@@ -207,9 +210,6 @@ public class StatisticsLogging implements Runnable {
 					lastTime = now;
 					current = 0;
 					times = 0;
-					if (cal.getTime().after(now)) {
-						break;
-					}
 				}
 				current += entry.getValue();
 				++times;
